@@ -1,45 +1,181 @@
 // colors
-$bg-color: #fff;
-$logo-color: #000;
+$silver-color: #e2e3e4;
+$silver-dark-color : darken($silver-color, 10%);
+$bazzel-color: #fff;
+$screen-color: #1c1c1c;
+$sensor-color: #444;
 
-// mixins
-@mixin center {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto;
+// image
+$body-bg: "https://i.pinimg.com/originals/34/ec/b5/34ecb5082a381e120f5f9a7a74f5f9da.jpg";
+
+// sizes
+$iphonex-height: 694px;
+$iphonex-width: 342px;
+$top-header-padding: 15px;
+$header-padding: 22px;
+
+// mixin
+@mixin center{
+  display: flex;
+  justify-content: center;
 }
-
-@mixin pseudo($position: absolute, $content: "") {
+@mixin pseudo($position: absolute, $content: ""){
     content: $content;
     position: $position;
 }
-
-@mixin breakpoint($point) {
-    @if $point==tablet {
-        @media (max-width: 1024px) and (min-width: 768px) {
-            @content ;
-        }
-    }
-    @else if $point==mobile {
-        @media (max-width: 480px) and (min-width: 320px) {
-            @content ;
-        }
-    }
+@mixin sensor($border-radius, $height, $width, $left, $margin-left, $top){
+  background: $sensor-color;
+  border-radius: $border-radius;
+  height: $height;
+  width: $width;
+  left: $left;
+  margin-left: $margin-left;
+  top: $top;
 }
 
-html, body{
-  width: 100%;
-  height: 100%;
-}
+/*------------------------------------------------*/
 
 body{
-  background: $bg-color;
-  overflow: hidden;
+  @include center;
+  padding: 5%;
+  background: url($body-bg) no-repeat;
 }
 
-.logo{
-  @include center;
+.iphone-x {
+  *{
+    &,
+    &::before,
+    &::after {
+      box-sizing: border-box;
+      display: block;
+    }
+  }
+
+  position: relative;
+  z-index: 1;
+  height: $iphonex-height;
+  width: $iphonex-width;
+
+  .bazzel {
+    background: $bazzel-color;
+    border-radius: 54px;
+    box-shadow: inset 0 0 2px 2px $silver-dark-color, inset 0 0 0 6px $silver-color;
+    height: $iphonex-height;
+    padding: $top-header-padding $header-padding;
+    width: $iphonex-width;
+    z-index: 1;
+  }
+
+  .screen {
+    background: $screen-color;
+    background-position: center center;
+    background-size: cover;
+    border-radius: 32px;
+    height: 665px;
+    position: relative;
+    width: 314px;
+    margin-left: -8px;
+  }
+
+  .line {
+    &::after,
+    &::before {
+      @include pseudo;
+      border: solid rgba($sensor-color, 0.25);
+      border-width: 0 6px;
+      height: 5px;
+      left: 0;
+      width: 100%;
+      z-index: 9;
+    }
+    &::after {
+      top: 68px;
+    }
+    &::before {
+      bottom: 68px;
+    }
+  }
+
+  .header {
+    background: $bazzel-color;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    height: 20px;
+    left: 50%;
+    margin-left: -82px;
+    position: absolute;
+    top: 15px;
+    width: 164px;
+    z-index: 199;
+  }
+
+  .sensor-1 {
+    &::after,
+    &::before {
+      @include pseudo;
+    }
+    &::after {
+      @include sensor(50%,11px,11px,1%,10px,1px);
+    }
+    &::before {
+      @include sensor(50%,11px,11px,10%,20px,1px);
+    }
+  }
+
+  .sensor-2 {
+    &::after,
+    &::before {
+      @include pseudo;
+    }
+    &::before {
+      @include sensor(2.5px,5px,40px,50%,-20px,4px);
+    }
+  }
+
+  .sensor-3 {
+    &::after,
+    &::before {
+      @include pseudo;
+    }
+    &::before {
+      @include sensor(50%,11px,11px,50%,35px,1px);
+    }
+    &::after {
+      @include sensor(50%,15px,15px,65%,33px,-1px);
+    }
+  }
+
+  .volume-button {
+    background: $silver-dark-color;
+    height: 26px;
+    left: -2px;
+    position: absolute;
+    top: 92px;
+    width: 3px;
+
+    &::after,
+    &::before {
+      @include pseudo;
+      background: $silver-dark-color;
+      height: 50px;
+      left: 0;
+      width: 3px;
+    }
+
+    &::after {
+      top: 48px;
+    }
+    &::before {
+      top: 112px;
+    }
+  }
+
+  .power-button {
+    background: $silver-dark-color;
+    height: 80px;
+    right: -2px;
+    position: absolute;
+    top: 160px;
+    width: 3px;
+  }
 }
